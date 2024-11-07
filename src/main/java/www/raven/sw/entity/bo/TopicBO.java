@@ -19,6 +19,5 @@ public class TopicBO {
 	//话题内容
 	private String content;
 	//话题媒体数据
-	private String media
-	;
+	private String media;
 }

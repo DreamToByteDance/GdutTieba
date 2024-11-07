@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 import www.raven.sw.cache.UserInfoUtils;
 import www.raven.sw.dao.ChatsDao;
 import www.raven.sw.entity.PageVO;
@@ -11,9 +12,6 @@ import www.raven.sw.entity.dto.MessageDTO;
 import www.raven.sw.entity.po.Chats;
 import www.raven.sw.entity.po.Users;
 import www.raven.sw.service.ChatsService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 聊天表(Chats)表服务实现类

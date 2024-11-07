@@ -19,7 +19,7 @@ public enum TopicStatusEnum {
 	 * 拒绝
 	 */
 	REJECTED;
-	
+
 	public static TopicStatusEnum getByName(String name) {
 		for (TopicStatusEnum value : TopicStatusEnum.values()) {
 			if (value.name().equals(name)) {

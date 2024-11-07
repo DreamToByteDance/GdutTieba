@@ -20,7 +20,7 @@ public class Result<T> {
 	 */
 	boolean isSuccess;
 	/**
-	 *  SUCCESS_CODE = 200; FAIL_CODE = 400;
+	 * SUCCESS_CODE = 200; FAIL_CODE = 400;
 	 */
 	private Integer code;
 	/**

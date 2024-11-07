@@ -1,7 +1,6 @@
 package www.raven.sw.entity;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +31,7 @@ public class PageVO<T> {
 
 	// 当前页数据列表
 	private List<T> data;
+
 	public PageVO(int currentPage, int pageSize, long totalCount, int totalPages, List<T> data) {
 		this.currentPage = currentPage;
 		this.pageSize = pageSize;

@@ -21,8 +21,9 @@ import java.util.Base64;
 @ResponseBody
 public class UploadController {
 	/**
-	 * 上传文件 返回base64的数据字符串, 
+	 * 上传文件 返回base64的数据字符串,
 	 * 若业务逻辑需要保存文件,就先从这里获取base64字符串,然后再附带为参数传递给业务接口
+	 *
 	 * @param file 文件
 	 * @return {@link String }
 	 */

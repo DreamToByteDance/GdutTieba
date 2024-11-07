@@ -23,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * ws连接管理
+ *
  * @author 刘家辉
  * @date 2023/12/04
  */
@@ -37,6 +38,7 @@ public class WsConnectionsCenter {
 	 */
 	public static final Map<Integer, Session> SESSION_POOL = new HashMap<>();
 	public static CopyOnWriteArraySet<WsConnectionsCenter> webSockets = new CopyOnWriteArraySet<>();
+	protected static ChatsService chatsService;
 	/**
 	 * 该连接的用户id
 	 */
@@ -45,7 +47,6 @@ public class WsConnectionsCenter {
 	 * 与客户端的连接会话
 	 **/
 	protected Session session;
-	protected static ChatsService chatsService;
 
 	@Autowired
 	public void setChatService(ChatsService chatService) {

@@ -1,6 +1,6 @@
 package www.raven.sw.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,7 +15,7 @@ import www.raven.sw.aop.TiebaInterceptor;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-	@Autowired
+	@Resource
 	private TiebaInterceptor tiebaInterceptor;
 
 	@Override

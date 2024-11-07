@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import www.raven.sw.cache.UserInfoCache;
 import www.raven.sw.cache.UserInfoUtils;
-import www.raven.sw.constant.RoleEnum;
 import www.raven.sw.entity.dto.TokenDTO;
 import www.raven.sw.entity.po.Users;
 import www.raven.sw.service.UsersService;
@@ -34,7 +33,7 @@ public class TiebaInterceptor implements HandlerInterceptor {
 	private UsersService usersService;
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		String token = request.getHeader(ACCESS_TOKEN);
 
 		//方便开发测试的后门
@@ -61,7 +60,7 @@ public class TiebaInterceptor implements HandlerInterceptor {
 
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		UserInfoUtils.removeUserInfo();
 	}
 }

@@ -5,8 +5,6 @@ import www.raven.sw.entity.PageVO;
 import www.raven.sw.entity.dto.MessageDTO;
 import www.raven.sw.entity.po.Chats;
 
-import java.util.List;
-
 /**
  * 聊天表(Chats)表服务接口
  *

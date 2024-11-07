@@ -1,6 +1,5 @@
 package www.raven.sw.entity.bo;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -14,7 +14,8 @@ public class UserInfo {
 	private Integer id;
 	private String username;
 	private String profile;
-	public UserInfo (Users users){
+
+	public UserInfo(Users users) {
 		this.id = users.getId();
 		this.username = users.getUsername();
 		this.profile = users.getProfile();

@@ -1,6 +1,7 @@
 package www.raven.sw.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 import www.raven.sw.cache.UserInfoUtils;
 import www.raven.sw.constant.TopicStatusEnum;
 import www.raven.sw.dao.TopicsDao;
@@ -10,7 +11,6 @@ import www.raven.sw.entity.po.Topics;
 import www.raven.sw.entity.po.Users;
 import www.raven.sw.exception.BizException;
 import www.raven.sw.service.TopicsService;
-import org.springframework.stereotype.Service;
 
 /**
  * 话题表(Topics)表服务实现类
@@ -40,7 +40,7 @@ public class TopicsServiceImpl extends ServiceImpl<TopicsDao, Topics> implements
 	public void reviewTopic(ReviewBO reviewBO) {
 		Topics topics = getById(reviewBO.getTopicId());
 		TopicStatusEnum status = TopicStatusEnum.getByName(reviewBO.getStatus());
-		if(status == null){
+		if (status == null) {
 			throw new BizException("status is not valid");
 		}
 		topics.setStatus(status);

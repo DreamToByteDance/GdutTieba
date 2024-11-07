@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import www.raven.sw.entity.dto.TokenVO;
 import www.raven.sw.entity.bo.LoginBO;
 import www.raven.sw.entity.bo.RegisterBO;
+import www.raven.sw.entity.dto.TokenVO;
 import www.raven.sw.entity.po.Users;
 import www.raven.sw.result.Result;
 import www.raven.sw.service.UsersService;
@@ -52,6 +52,7 @@ public class UserController {
 
 	/**
 	 * 获取用户信息
+	 *
 	 * @param id 用户ID
 	 * @return {@link Result }<{@link Void }>
 	 */
