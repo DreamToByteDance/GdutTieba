@@ -2,12 +2,16 @@ package www.raven.sw.entity.po;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import www.raven.sw.entity.UserInfo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +25,8 @@ import java.util.Date;
 @TableName("comments")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Comments {
 	@TableId(value = "id", type = IdType.AUTO)
 	private Integer id;
@@ -32,6 +38,9 @@ public class Comments {
 	private String content;
 	//评论时间
 	private Date createdAt;
+	//用户信息
+	@TableField(exist = false)
+	private UserInfo userInfo;
 
 }
 

@@ -17,7 +17,6 @@ import java.util.List;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class PageVO<T> {
 	// 当前页码
 	private int currentPage;
@@ -33,6 +32,13 @@ public class PageVO<T> {
 
 	// 当前页数据列表
 	private List<T> data;
+	public PageVO(int currentPage, int pageSize, long totalCount, int totalPages, List<T> data) {
+		this.currentPage = currentPage;
+		this.pageSize = pageSize;
+		this.totalCount = totalCount;
+		this.totalPages = totalPages;
+		this.data = data;
+	}
 
 	public PageVO(Page<T> page) {
 		this.currentPage = (int) page.getCurrent();

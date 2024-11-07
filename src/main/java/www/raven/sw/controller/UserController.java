@@ -1,6 +1,8 @@
 package www.raven.sw.controller;
 
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import www.raven.sw.entity.dto.TokenVO;
 import www.raven.sw.entity.bo.LoginBO;
 import www.raven.sw.entity.bo.RegisterBO;
+import www.raven.sw.entity.po.Users;
 import www.raven.sw.result.Result;
 import www.raven.sw.service.UsersService;
 
@@ -45,6 +48,16 @@ public class UserController {
 	@PostMapping("register")
 	public Result<TokenVO> register(@RequestBody RegisterBO registerBO) {
 		return Result.operateSuccess("注册成功", usersService.register(registerBO));
+	}
+
+	/**
+	 * 获取用户信息
+	 * @param id 用户ID
+	 * @return {@link Result }<{@link Void }>
+	 */
+	@GetMapping("/{id}")
+	public Result<Users> getUserInfo(@PathVariable("id") Long id) {
+		return Result.operateSuccess("获取用户信息成功", usersService.getById(id));
 	}
 
 	/**
