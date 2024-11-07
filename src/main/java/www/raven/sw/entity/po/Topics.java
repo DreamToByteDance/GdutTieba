@@ -34,6 +34,8 @@ public class Topics {
 	private String title;
 	//话题内容
 	private String content;
+	//话题媒体数据
+	private String media;
 	//审核状态
 	private Object status;
 	//发布时间

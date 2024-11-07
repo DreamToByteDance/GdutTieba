@@ -54,6 +54,7 @@ public class TopicController {
 			@RequestParam Integer size) {
 		LambdaQueryWrapper<Topics> qp = Wrappers.lambdaQuery(Topics.class)
 				.eq(Topics::getCircleId, circleId)
+				.ne(Topics::getStatus, TopicStatusEnum.PENDING)
 				.orderByDesc(Topics::getUpdatedAt);
 		Page<Topics> data = topicsService.page(new Page<>(page, size), qp);
 		return Result.operateSuccess("查询成功", new PageVO<>(data));

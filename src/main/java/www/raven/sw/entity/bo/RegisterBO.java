@@ -24,4 +24,8 @@ public class RegisterBO {
 	 * 邮箱
 	 */
 	private String email;
+	/**
+	 * 头像
+	 */
+	private String profile;
 }

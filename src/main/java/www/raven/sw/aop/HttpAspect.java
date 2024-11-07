@@ -91,7 +91,7 @@ public class HttpAspect {
 		if (argList.isEmpty()) {
 			return null;
 		} else if (argList.size() == 1) {
-			return argList.getFirst();
+			return argList.get(0);
 		} else {
 			return argList;
 		}

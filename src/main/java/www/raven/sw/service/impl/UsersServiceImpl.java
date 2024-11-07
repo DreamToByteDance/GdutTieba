@@ -52,6 +52,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersDao, Users> implements Us
 		users.setPassword(registerBO.getPassword());
 		users.setEmail(registerBO.getEmail());
 		users.setRole(RoleEnum.USER);
+		users.setProfile(registerBO.getProfile());
 		save(users);
 		userInfoCache.addUserInfo(users.getId(), users);
 		return JwtUtil.createLoginToken(users.getId());

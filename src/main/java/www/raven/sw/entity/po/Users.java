@@ -36,6 +36,8 @@ public class Users {
 	private String email;
 	//用户角色
 	private Object role;
+	//头像
+	private String profile;
 	//注册时间
 	private Date createdAt;
 	//更新时间

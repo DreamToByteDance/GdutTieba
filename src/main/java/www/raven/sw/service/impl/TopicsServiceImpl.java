@@ -8,6 +8,7 @@ import www.raven.sw.entity.bo.ReviewBO;
 import www.raven.sw.entity.bo.TopicBO;
 import www.raven.sw.entity.po.Topics;
 import www.raven.sw.entity.po.Users;
+import www.raven.sw.exception.BizException;
 import www.raven.sw.service.TopicsService;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class TopicsServiceImpl extends ServiceImpl<TopicsDao, Topics> implements
 				.content(topicBO.getContent())
 				.status(TopicStatusEnum.PENDING)
 				.userId(userInfo.getId())
+				.media(topicBO.getMedia())
 				.build();
 		save(build);
 	}
@@ -37,7 +39,11 @@ public class TopicsServiceImpl extends ServiceImpl<TopicsDao, Topics> implements
 	@Override
 	public void reviewTopic(ReviewBO reviewBO) {
 		Topics topics = getById(reviewBO.getTopicId());
-		topics.setStatus(reviewBO.getStatus());
+		TopicStatusEnum status = TopicStatusEnum.getByName(reviewBO.getStatus());
+		if(status == null){
+			throw new BizException("status is not valid");
+		}
+		topics.setStatus(status);
 		updateById(topics);
 	}
 }
