@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: DormAdmin
+  datasource:
+    url: jdbc:mysql://10.21.32.154:3306/gdut_tieba?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: root
+    hikari:
+      maximum-pool-size: 100
+      idleTimeout: 600000
+      connectionTimeout: 30000
+      maxLifetime: 1800000
+server:
+  port: 8888
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
