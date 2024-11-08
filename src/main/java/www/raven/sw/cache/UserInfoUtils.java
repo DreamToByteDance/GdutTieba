@@ -14,6 +14,10 @@ public class UserInfoUtils {
 	public static Users getUserInfo() {
 		return USERS.get();
 	}
+	
+	public static Integer getUserId(){
+		return USERS.get().getId();
+	}
 
 	public static void setUserInfo(Users userInfo) {
 		USERS.set(userInfo);

@@ -16,5 +16,7 @@ public interface ChatsService extends IService<Chats> {
 	void saveChat(MessageDTO messageDTO, Integer userId);
 
 	PageVO<Chats> historyChat(Long toUserId, Integer page, Integer size);
+
+	void sendChat(MessageDTO messageDTO, Integer userId, String message);
 }
 

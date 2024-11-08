@@ -3,6 +3,7 @@ package www.raven.sw.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.base.Strings;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import www.raven.sw.entity.po.Circles;
 import www.raven.sw.entity.po.Comments;
 import www.raven.sw.entity.po.Topics;
 import www.raven.sw.entity.po.Users;
+import www.raven.sw.entity.vo.CirclesTopicsVO;
 import www.raven.sw.entity.vo.TopicsVO;
 import www.raven.sw.result.Result;
 import www.raven.sw.service.CirclesService;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -54,23 +57,96 @@ public class TopicController {
 	private UsersService usersService;
 
 	/**
+	 * 展示主页(展示所有圈子审核通过的话题及其评论)
+	 *
+	 * @param page    page
+	 * @param size    size
+	 * @param keyword 标题关键字(模糊查询)
+	 * @return {@link Result }<{@link PageVO }<{@link CirclesTopicsVO }>>
+	 */
+	@GetMapping("/getForMainPage")
+	public Result<PageVO<CirclesTopicsVO>> listTopicForMainPage(
+			@RequestParam Integer page,
+			@RequestParam Integer size,
+			@RequestParam(required = false) String keyword) {
+		// 合并查询 Topics 和 Circles
+		LambdaQueryWrapper<Topics> topicsQuery = Wrappers.lambdaQuery(Topics.class)
+				.ne(Topics::getStatus, TopicStatusEnum.PENDING)
+				.orderByDesc(Topics::getUpdatedAt);
+		if (!Strings.isNullOrEmpty(keyword)) {
+			topicsQuery.like(Topics::getTitle, keyword);
+		}
+
+		// 获取分页数据并一次性查询所需的 Circles 数据
+		Page<Topics> data = topicsService.page(new Page<>(page, size), topicsQuery);
+		List<Integer> circleIds = data.getRecords().stream().map(Topics::getCircleId).collect(Collectors.toList());
+		Map<Integer, Circles> circlesMap = circlesService.listByIds(circleIds).stream()
+				.collect(Collectors.toMap(Circles::getId, Function.identity()));
+
+		// 合并查询 Comments 和 Users
+		List<Integer> topicIds = data.getRecords().stream().map(Topics::getId).collect(Collectors.toList());
+		LambdaQueryWrapper<Comments> commentsQuery = Wrappers.lambdaQuery(Comments.class)
+				.in(Comments::getTopicId, topicIds);
+		List<Comments> commentsList = commentsService.list(commentsQuery);
+
+		// 获取所有评论的用户ID
+		List<Integer> userIds = new ArrayList<>();
+		userIds.addAll(data.getRecords().stream().map(Topics::getUserId).collect(Collectors.toList()));
+		userIds.addAll(commentsList.stream().map(Comments::getUserId).collect(Collectors.toList()));
+
+		// 批量查询 Users 数据
+		Map<Integer, UserInfo> usersMap = usersService.listByIds(userIds).stream()
+				.collect(Collectors.toMap(Users::getId, UserInfo::new));
+
+		// 将评论和话题信息合并到 VO 中
+		List<CirclesTopicsVO> topicsVOS = new ArrayList<>(data.getRecords().size());
+		for (Topics topic : data.getRecords()) {
+			// 获取与话题相关的评论并设置用户信息
+			List<Comments> topicComments = commentsList.stream()
+					.filter(comment -> comment.getTopicId().equals(topic.getId()))
+					.peek(comment -> comment.setUserInfo(usersMap.get(comment.getUserId())))
+					.collect(Collectors.toList());
+
+			// 设置话题的用户信息
+			topic.setUserInfo(usersMap.get(topic.getUserId()));
+
+			// 构建 VO 对象
+			topicsVOS.add(new CirclesTopicsVO(circlesMap.get(topic.getCircleId()), new TopicsVO(topic, topicComments)));
+		}
+
+		return Result.operateSuccess("查询成功", new PageVO<>(
+				(int) data.getCurrent(),
+				(int) data.getSize(),
+				data.getTotal(),
+				(int) data.getPages(),
+				topicsVOS
+		));
+	}
+
+
+	/**
 	 * 展示指定圈子的主页(展示审核通过的话题及其评论)
 	 *
 	 * @param circleId 圈子ID
 	 * @param page     页码
 	 * @param size     页大小
+	 * @param keyword  标题关键字(模糊查询)
+	 * @return {@link Result }<{@link PageVO }<{@link TopicsVO }>>
 	 */
 	@GetMapping("/getToShowPage")
 	public Result<PageVO<TopicsVO>> listTopic(
 			@RequestParam Long circleId,
 			@RequestParam Integer page,
-			@RequestParam Integer size) {
-
+			@RequestParam Integer size,
+			@RequestParam(required = false) String keyword) {
 		// 构建查询条件
 		LambdaQueryWrapper<Topics> qp = Wrappers.lambdaQuery(Topics.class)
 				.eq(Topics::getCircleId, circleId)
 				.ne(Topics::getStatus, TopicStatusEnum.PENDING)
 				.orderByDesc(Topics::getUpdatedAt);
+		if (!Strings.isNullOrEmpty(keyword)) {
+			qp.like(Topics::getTitle, keyword);
+		}
 		// 分页查询Topic数据
 		Page<Topics> data = topicsService.page(new Page<>(page, size), qp);
 		// 获取所有话题ID
@@ -92,9 +168,7 @@ public class TopicController {
 				.flatMap(List::stream)
 				.map(Comments::getUserId)
 				.toList());
-		LambdaQueryWrapper<Users> in1 = Wrappers.lambdaQuery(Users.class)
-				.in(Users::getId, userIds);
-		Map<Integer, UserInfo> usersMap = usersService.list(in1)
+		Map<Integer, UserInfo> usersMap = usersService.listByIds(userIds)
 				.stream()
 				.collect(Collectors.toMap(Users::getId, UserInfo::new));
 		data.getRecords().forEach(topics -> {
@@ -103,16 +177,13 @@ public class TopicController {
 			topics.setUserInfo(usersMap.get(topics.getUserId()));
 			topicsVOS.add(new TopicsVO(topics, commentsList));
 		});
-		// 构建分页VO对象
-		PageVO<TopicsVO> topicsData = new PageVO<>(
+		return Result.operateSuccess("查询成功", new PageVO<>(
 				(int) data.getCurrent(),
 				(int) data.getSize(),
 				data.getTotal(),
 				(int) data.getPages(),
 				topicsVOS
-		);
-
-		return Result.operateSuccess("查询成功", topicsData);
+		));
 	}
 
 

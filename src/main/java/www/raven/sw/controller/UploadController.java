@@ -17,7 +17,7 @@ import java.util.Base64;
  * @date 2024/11/07
  */
 @RestController
-@RequestMapping("api/topic/")
+@RequestMapping("api/")
 @ResponseBody
 public class UploadController {
 	/**

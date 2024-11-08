@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class MessageDTO {
 	private String content;
-	private Integer toUserId;
+	private Integer sessionId;
 }

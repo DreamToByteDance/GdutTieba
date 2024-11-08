@@ -22,7 +22,7 @@ public class Chats {
 	@TableId(value = "id", type = IdType.AUTO)
 	private Integer id;
 	private Integer senderId;
-	private Integer receiverId;
+	private Integer sessionId;
 	private String message;
 	private Date sentAt;
 }

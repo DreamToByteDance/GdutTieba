@@ -84,7 +84,7 @@ public class WsConnectionsCenter {
 	public void onMessage(String message) {
 		log.info("----WebSocket收到客户端发来的消息:{}", message);
 		MessageDTO messageDTO = JsonUtil.jsonToObj(message, MessageDTO.class);
-		WsTools.sendOneMessage(messageDTO.getToUserId(), message);
+		chatsService.sendChat(messageDTO, userId, message);
 		chatsService.saveChat(messageDTO, userId);
 	}
 
