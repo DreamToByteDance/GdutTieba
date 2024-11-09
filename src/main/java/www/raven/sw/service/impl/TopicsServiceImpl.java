@@ -39,6 +39,7 @@ public class TopicsServiceImpl extends ServiceImpl<TopicsDao, Topics> implements
 	@Override
 	public void reviewTopic(ReviewBO reviewBO) {
 		Topics topics = getById(reviewBO.getTopicId());
+		
 		TopicStatusEnum status = TopicStatusEnum.getByName(reviewBO.getStatus());
 		if (status == null) {
 			throw new BizException("status is not valid");

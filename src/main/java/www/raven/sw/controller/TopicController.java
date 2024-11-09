@@ -62,7 +62,6 @@ public class TopicController {
 	 * @param page    page
 	 * @param size    size
 	 * @param keyword 标题关键字(模糊查询)
-	 * @return {@link Result }<{@link PageVO }<{@link CirclesTopicsVO }>>
 	 */
 	@GetMapping("/getForMainPage")
 	public Result<PageVO<CirclesTopicsVO>> listTopicForMainPage(
@@ -131,7 +130,6 @@ public class TopicController {
 	 * @param page     页码
 	 * @param size     页大小
 	 * @param keyword  标题关键字(模糊查询)
-	 * @return {@link Result }<{@link PageVO }<{@link TopicsVO }>>
 	 */
 	@GetMapping("/getToShowPage")
 	public Result<PageVO<TopicsVO>> listTopic(
@@ -225,7 +223,7 @@ public class TopicController {
 				.map(Circles::getId)
 				.toList();
 		LambdaQueryWrapper<Topics> qp = Wrappers.lambdaQuery(Topics.class)
-				.eq(Topics::getCircleId, circleIds)
+				.in(Topics::getCircleId, circleIds)
 				.eq(Topics::getStatus, TopicStatusEnum.PENDING)
 				.orderByDesc(Topics::getUpdatedAt);
 		Page<Topics> data = topicsService.page(new Page<>(page, size), qp);

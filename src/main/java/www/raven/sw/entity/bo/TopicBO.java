@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class TopicBO {
-	//圈ID，默认校园圈
+	//圈ID，默认校园圈为 1
 	private Integer circleId;
 	//话题标题
 	private String title;
