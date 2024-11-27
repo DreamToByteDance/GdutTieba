@@ -79,6 +79,9 @@ public class TopicController {
 		// 获取分页数据并一次性查询所需的 Circles 数据
 		Page<Topics> data = topicsService.page(new Page<>(page, size), topicsQuery);
 		List<Integer> circleIds = data.getRecords().stream().map(Topics::getCircleId).collect(Collectors.toList());
+		if(circleIds.isEmpty()){
+			return Result.operateSuccess("查询成功", new PageVO<>());
+		}
 		Map<Integer, Circles> circlesMap = circlesService.listByIds(circleIds).stream()
 				.collect(Collectors.toMap(Circles::getId, Function.identity()));
 
@@ -147,6 +150,9 @@ public class TopicController {
 		}
 		// 分页查询Topic数据
 		Page<Topics> data = topicsService.page(new Page<>(page, size), qp);
+		if(data.getRecords().isEmpty()){
+			return  Result.operateSuccess("查询成功", new PageVO<>());
+		}
 		// 获取所有话题ID
 		List<Integer> topicIds = data.getRecords().stream()
 				.map(Topics::getId)

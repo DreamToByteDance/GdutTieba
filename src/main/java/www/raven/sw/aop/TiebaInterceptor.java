@@ -1,15 +1,18 @@
 package www.raven.sw.aop;
 
+import com.google.common.base.Objects;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import www.raven.sw.cache.UserInfoCache;
 import www.raven.sw.cache.UserInfoUtils;
 import www.raven.sw.entity.dto.TokenDTO;
 import www.raven.sw.entity.po.Users;
+import www.raven.sw.exception.BizException;
 import www.raven.sw.service.UsersService;
 import www.raven.sw.util.JwtUtil;
 
@@ -34,8 +37,13 @@ public class TiebaInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+		if(request.getMethod().equals(HttpMethod.OPTIONS.name())){
+			return true;
+		}
 		String token = request.getHeader(ACCESS_TOKEN);
-
+		if(token == null || token.isEmpty()){
+			throw new BizException("token为空,未登录!");
+		}
 		//方便开发测试的后门
 		if (token.equals(后门_TOKEN)) {
 			log.info("开发走后门");

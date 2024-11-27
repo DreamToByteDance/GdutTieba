@@ -34,7 +34,7 @@ public class UserController {
 	 * @param loginBO login bo
 	 */
 	@PostMapping("login")
-	public Result<TokenVO> logzin(@RequestBody LoginBO loginBO) {
+	public Result<TokenVO> login(@RequestBody LoginBO loginBO) {
 		return Result.operateSuccess("登录成功", usersService.login(
 				loginBO.getUsername(), loginBO.getPassword()
 		));
