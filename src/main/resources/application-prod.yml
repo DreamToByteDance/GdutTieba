@@ -1,0 +1,7 @@
+file:
+  upload-dir: /app/uploads  # Docker 容器内部的路径
+
+spring:
+  web:
+    resources:
+      static-locations: file:/app/uploads/  # 映射到容器内部

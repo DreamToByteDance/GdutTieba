@@ -22,6 +22,7 @@ public class CirclesServiceImpl extends ServiceImpl<CirclesDao, Circles> impleme
 		Users userInfo = UserInfoUtils.getUserInfo();
 		Circles build = Circles.builder()
 				.name(circlesBO.getCircleName())
+				.profile(circlesBO.getCircleProfile())
 				.description(circlesBO.getCircleDescription())
 				.createdBy(userInfo.getId())
 				.build();

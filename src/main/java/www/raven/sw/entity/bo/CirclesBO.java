@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 public class CirclesBO {
 	//主题圈名称
 	private String circleName;
+	//主题圈头像
+	private String circleProfile;
 	//主题圈描述
 	private String circleDescription;
 }

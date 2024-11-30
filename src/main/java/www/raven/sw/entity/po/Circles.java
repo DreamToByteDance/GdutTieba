@@ -27,6 +27,8 @@ public class Circles extends Model<Circles> {
 	private Integer id;
 	//圈名称
 	private String name;
+	//圈头像
+	private String profile;
 	//圈描述
 	private String description;
 	//创建者ID

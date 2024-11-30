@@ -1,4 +1,12 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB   # 限制单个文件最大上传大小
+      max-request-size: 10MB # 限制整个请求的最大大小
+  profiles:
+    active: prod
+  mvc:
+    dispatch-options-request: true
   application:
     name: DormAdmin
   datasource:
