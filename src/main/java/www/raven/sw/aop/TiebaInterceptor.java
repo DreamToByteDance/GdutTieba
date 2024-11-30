@@ -56,6 +56,9 @@ public class TiebaInterceptor implements HandlerInterceptor {
 		//判断是否过期
 		if (JwtUtil.isExpire(tokenDTO)) {
 			String freshToken = request.getHeader(FRESH_TOKEN);
+			if(Objects.equal(freshToken, null) || freshToken.isEmpty()){
+				throw new BizException("token过期,请重新登录");
+			}
 			String newAccessToken = JwtUtil.refreshAccessToken(freshToken);
 			response.setHeader(ACCESS_TOKEN, newAccessToken);
 			tokenDTO = JwtUtil.parseToken(newAccessToken);
