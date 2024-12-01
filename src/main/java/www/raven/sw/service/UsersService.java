@@ -19,5 +19,7 @@ public interface UsersService extends IService<Users> {
 	void isAdmin();
 
 	void upgrade();
+
+	Users getSelfInfo();
 }
 

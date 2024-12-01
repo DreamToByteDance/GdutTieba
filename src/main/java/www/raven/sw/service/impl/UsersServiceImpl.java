@@ -61,7 +61,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersDao, Users> implements Us
 	@Override
 	public void isAdmin() {
 		Users userInfo = UserInfoUtils.getUserInfo();
-		if (userInfo == null || !RoleEnum.ADMIN.name().toLowerCase().equals(userInfo.getRole())) {
+		userInfo = getById(userInfo.getId());
+		userInfoCache.addUserInfo(userInfo.getId(), userInfo);
+		if (!RoleEnum.ADMIN.name().toLowerCase().equals(userInfo.getRole())) {
 			throw new BizException("无权限");
 		}
 	}
@@ -73,6 +75,11 @@ public class UsersServiceImpl extends ServiceImpl<UsersDao, Users> implements Us
 		users.setRole(RoleEnum.ADMIN);
 		updateById(users);
 		userInfoCache.addUserInfo(users.getId(), users);
+	}
+
+	@Override
+	public Users getSelfInfo() {
+		return UserInfoUtils.getUserInfo();
 	}
 
 }

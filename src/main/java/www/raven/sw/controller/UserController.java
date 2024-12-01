@@ -63,6 +63,16 @@ public class UserController {
 	}
 
 	/**
+	 * 获取个人信息
+	 *
+	 * @return {@link Result }<{@link Users }>
+	 */
+	@GetMapping("/self")
+	public Result<Users> getSelfInfo() {
+		return Result.operateSuccess("获取用户信息成功", usersService.getSelfInfo());
+	}
+
+	/**
 	 * 用户升级为管理员
 	 */
 	@PostMapping("upgrade")

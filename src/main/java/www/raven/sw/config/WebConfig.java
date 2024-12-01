@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tiebaInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/user/**","/api/files/**","/files/**");
+                .excludePathPatterns("/api/user/login","/api/user/register","/api/files/**","/files/**","ws:/**");
     }
     @Override
     public void addCorsMappings(CorsRegistry registry) {
